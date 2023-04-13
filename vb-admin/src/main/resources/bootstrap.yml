@@ -1,0 +1,13 @@
+logging :
+  file :
+    name: vb-admin.log
+    path: ${HOME}/vb-logs/vb-admin/
+  
+spring:
+  application:
+    name: vb-admin
+  cloud:
+    config:
+      enabled: false
+      fail-fast: false
+      uri: http://1333:9999/vb-cfg

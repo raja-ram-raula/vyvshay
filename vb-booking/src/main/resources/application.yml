@@ -1,0 +1,206 @@
+spring:
+  devtools :
+   add-properties: false
+  profiles:
+    active: test
+  web:     
+   resources:
+     static-locations:  'classpath:/META-INF/resources/, classpath:/resources/, classpath:/app/, classpath:/public/'  
+server:
+ servlet:
+   context-path: /vb-booking  
+   
+vb:
+ vb-booking:
+     filesystem:
+        root-folder: ${HOME}/vb-data/vb-booking-filesystem/
+        icons-root-folder: app-icons 
+        service-icons-folder: service-icons 
+        category-icons-folder: category-icons
+        id-proof-folder: id-proofs
+        temp-folder: vb-temp
+        
+
+
+
+---
+spring:
+  profiles: local  
+  main:
+    banner-mode: 'CONSOLE'
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    hikari:
+       pool-name: vb-admin-connection-pool
+       minimum-idle: 5
+       maximum-pool-size: 15
+       
+  jpa:
+    show-sql: true
+    hibernate.ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+twilio:
+  account_sid:  AC9468a1f96fd549c1e507b857ae20cc1a
+  auth_token: 9f53ebab93bb0b024927e7ac286fff3e
+  service_id: VAc9af209ba7d211b25421b28df5539c21
+  autoconfigure:
+   exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+server:
+      port: 8086
+vb :
+ endpoints:
+    vb-booking: http://localhost:8086/vb-booking
+    vb-admin: http://localhost:8888/vb-admin
+app.firebase-configuration-file-sp:
+     service_provider_app_cb4de_firebase_adminsdk_qcwxg_cbac0d1358.json
+ 
+---    
+spring:
+  profiles: dev
+  main:
+    banner-mode: 'CONSOLE'
+  servlet:
+         multipart:
+            max-file-size: 100MB
+            max-request-size: 100MB
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    #url: jdbc:postgresql://164.52.212.42:5432/postgres
+    url: jdbc:postgresql://164.52.212.42:5432/vyabashay
+    username: postgres
+    password: psql123
+    test-on-borrow: true
+    validation-query: select 1 
+    validation-interval: 30000
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: vb-booking-connection-pool
+      #minimum-idle: 15
+      #maximum-pool-size: 15
+      connection-timeout: 30000
+      idle-timeout: 3600000
+      minimum-idle: 20
+      maximum-pool-size: 100
+      max-lifetime: 0
+      #leak-detection-threshold: 2000
+      connection-test-query: select 1 
+  jpa:
+    show-sql: false
+    hibernate.ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect 
+# boot: 
+#   admin:        
+#    client:
+#      url: http://164.52.208.42:9001/vb-monitoring-dashboard/    
+
+server:
+      #port: 8083
+      port: 8088          
+twilio:
+  account_sid:  AC9468a1f96fd549c1e507b857ae20cc1a
+  auth_token: 9f53ebab93bb0b024927e7ac286fff3e
+  service_id: VAc9af209ba7d211b25421b28df5539c21
+  autoconfigure:
+   exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration 
+       
+vb :
+ endpoints:
+    vb-booking: http://164.52.212.42:8086/vb-booking
+    vb-admin: http://164.52.212.42:8888/vb-admin
+app.firebase-configuration-file-sp:
+     service_provider_app_cb4de_firebase_adminsdk_qcwxg_cbac0d1358.json
+app.due.payment: 100         
+management:
+  health:
+    mail: 
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+    logfile:  
+        external-file: ${logging.file.path}/${logging.file.name}
+    shutdown:
+      enabled: false  
+  endpoints:
+    web:
+       exposure: 
+           include: '*'
+
+---    
+spring:
+  application:    name: booking-app
+  boot:
+   admin:
+      client:
+        url:
+        - http://localhost:8081
+  profiles: test
+  servlet:
+         multipart:
+            max-file-size: 100MB
+            max-request-size: 100MB
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://164.52.208.41:5432/vbproject
+    username: qatest
+    password: passwd
+    test-on-borrow: true
+    validation-query: select 1 
+    validation-interval: 30000
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: vb-booking-connection-pool
+      #minimum-idle: 15
+      #maximum-pool-size: 15
+      connection-timeout: 30000
+      idle-timeout: 3600000
+      minimum-idle: 20
+      maximum-pool-size: 100
+      max-lifetime: 0
+      #leak-detection-threshold: 2000
+      connection-test-query: select 1 
+  jpa:
+    show-sql: false
+    hibernate.ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect 
+app.due.payment: 100 
+    
+# boot: 
+#   admin:        
+#    client:
+#      url: http://164.52.208.41:9001/vb-monitoring-dashboard/  
+server:
+      port: 8085 
+twilio:
+  account_sid:  AC9468a1f96fd549c1e507b857ae20cc1a
+  auth_token: 9f53ebab93bb0b024927e7ac286fff3e
+  service_id: VAc9af209ba7d211b25421b28df5539c21
+  autoconfigure:
+   exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration 
+       
+vb :
+ endpoints:
+    vb-booking: http://164.52.212.41:8085/vb-booking
+    vb-admin: http://164.52.212.41:8084/vb-admin
+app.firebase-configuration-file-sp:
+     service_provider_app_cb4de_firebase_adminsdk_qcwxg_cbac0d1358.json
+         
+management:
+  health:
+    mail: 
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+    logfile:  
+        external-file: ${logging.file.path}/${logging.file.name}
+    shutdown:
+      enabled: false  
+  endpoints:
+    web:
+       exposure: 
+           include: '*'

@@ -1,0 +1,183 @@
+
+spring:
+  devtools :
+   add-properties: false
+  profiles:
+    active: test
+  web:     
+   resources:
+     static-locations:  'classpath:/META-INF/resources/, classpath:/resources/, classpath:/app/, classpath:/public/'  
+server:
+ servlet:
+   context-path: /vb-admin  
+   
+vb:
+ vb-admin:
+     filesystem:
+        root-folder: ${HOME}/document-admin/profile_upload_files/
+     
+    # image-path-icon: image-icons    
+      
+---
+
+spring:
+  profiles: local  
+  main:
+    banner-mode: 'CONSOLE'
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: root
+    hikari:
+       pool-name: vb-admin-connection-pool
+       minimum-idle: 3
+       maximum-pool-size: 5
+  jpa:
+    show-sql: false
+    hibernate.ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    
+  boot:    
+   admin:        
+    client:
+      url: http://localhost:9001/vb-monitoring-dashboard/   
+
+twilio:
+  account_sid: AC9408221676fadd92ad2e650698f7dbbc
+  auth_token: ba59663f3f4f4bb44bf7ecc8e70ba26b
+  service_id: VA926fa351ce241f5f3281e07b015761a1
+  autoconfigure:
+   exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+server:
+      port: 8080
+vb :
+ endpoints:
+    vb-booking: http://164.52.212.42:8083/vb-booking
+app.firebase-configuration-file-user:
+     farmer-app-d160a-firebase-adminsdk-hy2ne-a2d1bdd25e.json
+     
+      
+---
+
+spring:
+  profiles: dev
+  servlet:
+         multipart:
+            max-file-size: 100MB
+            max-request-size: 100MB
+  main:
+    banner-mode: 'console'
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://164.52.212.42:5432/postgres
+    username: postgres
+    password: psql123
+    hikari:
+      pool-name: vb-admin-connection-pool
+      minimum-idle: 10
+      maximum-pool-size: 15
+  jpa:
+    show-sql: false
+    hibernate.ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect   
+#  boot: 
+#   admin:        
+#    client:
+#      url: http://164.52.212.42:9001/vb-monitoring-dashboard/
+
+server:
+      port: 8888            
+twilio:
+  account_sid: AC9408221676fadd92ad2e650698f7dbbc
+  auth_token: ba59663f3f4f4bb44bf7ecc8e70ba26b
+  service_id: VA926fa351ce241f5f3281e07b015761a1
+  autoconfigure:
+   exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration 
+       
+vb :
+ endpoints:
+    vb-booking: http://164.52.212.42:8083/vb-booking
+app.firebase-configuration-file-user:
+     farmer-app-d160a-firebase-adminsdk-hy2ne-a2d1bdd25e.json
+
+          
+management:
+  health:
+    mail: 
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+    logfile:  
+        external-file: ${logging.file.path}/${logging.file.name}
+    shutdown:
+      enabled: false  
+  endpoints:
+    web:
+       exposure: 
+           include: '*'
+
+---
+
+spring:
+  application:    name: admin-app
+  boot:
+   admin:      client:        url:        - http://localhost:8081
+  profiles: test
+  servlet:
+         multipart:
+            max-file-size: 100MB
+            max-request-size: 100MB
+  main:
+    banner-mode: 'CONSOLE'
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://164.52.208.41:5432/vbproject
+    username: qatest
+    password: passwd
+    hikari:
+      pool-name: vb-admin-connection-pool
+      minimum-idle: 10
+      maximum-pool-size: 15
+  jpa:
+    show-sql: false
+    hibernate.ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect   
+#  boot: 
+#   admin:        
+#    client:
+#      url: http://164.52.208.41:9001/vb-monitoring-dashboard/         
+server:
+      port: 8084
+twilio:
+  account_sid: AC9408221676fadd92ad2e650698f7dbbc
+  auth_token: ba59663f3f4f4bb44bf7ecc8e70ba26b
+  service_id: VA926fa351ce241f5f3281e07b015761a1
+  autoconfigure:
+   exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration 
+       
+vb :
+ endpoints:
+    vb-booking: http://164.52.208.41:8085/vb-booking
+app.firebase-configuration-file-user:
+     durable-return-309905-firebase-adminsdk-hvw4a-018d26a2b4.json
+
+                 
+management:
+  health:
+    mail: 
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+    logfile:  
+        external-file: ${logging.file.path}/${logging.file.name}
+    shutdown:
+      enabled: false  
+  endpoints:
+    web:
+       exposure: 
+           include: '*'
+ 
+

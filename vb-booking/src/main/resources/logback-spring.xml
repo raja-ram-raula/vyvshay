@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    
+    <property name="DATE_PATTERN" value="%d{yyyy-MM-dd}" />
+    <property name="MAX_DAYS" value="30" />
+    
+    <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <file>${LOG_PATH}/${LOG_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE}.${DATE_PATTERN}</fileNamePattern>
+            <maxHistory>${MAX_DAYS}</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="com.sigmify.vb" level="DEBUG" additivity="false">
+        <springProfile name="default">
+            <appender-ref ref="CONSOLE_APPENDER" />
+        </springProfile>
+        <appender-ref ref="FILE_APPENDER" />
+    </logger>
+    
+    <logger name="org.springframework" level="INFO" additivity="false">
+        <springProfile name="default">
+            <appender-ref ref="CONSOLE_APPENDER" />
+        </springProfile>
+        <appender-ref ref="FILE_APPENDER" />
+    </logger>
+
+    <root level="INFO">
+        <springProfile name="default">
+            <appender-ref ref="CONSOLE_APPENDER" />
+        </springProfile>
+        <appender-ref ref="FILE_APPENDER" />
+    </root>
+
+</configuration>

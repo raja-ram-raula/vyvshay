@@ -1,0 +1,15 @@
+logging :
+  file :
+    name: vb-booking.log
+    path: ${HOME}/vb-logs/vb-booking/
+  
+spring:
+  application:
+    name: vb-booking
+  cloud:
+    config:
+      name: vb-booking
+      enabled: false
+      fail-fast: false
+      uri: http://localhost:9000/vb-config-server/
+     
